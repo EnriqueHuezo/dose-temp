@@ -15,7 +15,7 @@ fun MedicationEntity.toMedication(): Medication {
         endDate = endDate,
         medicationTime = medicationTime,
         medicationTaken = medicationTaken,
-        type = MedicationType.valueOf(type)
+        type = MedicationType.valueOf(type),
     )
 }
 
@@ -29,6 +29,6 @@ fun Medication.toMedicationEntity(): MedicationEntity {
         endDate = endDate,
         medicationTime = medicationTime,
         medicationTaken = medicationTaken,
-        type = type.name
+        type = type.name,
     )
 }

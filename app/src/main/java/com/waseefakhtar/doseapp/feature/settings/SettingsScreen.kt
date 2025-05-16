@@ -30,16 +30,14 @@ import com.waseefakhtar.doseapp.domain.model.LanguageEnum
 import com.waseefakhtar.doseapp.feature.settings.viewmodel.SettingsViewModel
 
 @Composable
-fun SettingsRoute(
-    viewModel: SettingsViewModel = hiltViewModel()
-) {
+fun SettingsRoute(viewModel: SettingsViewModel = hiltViewModel()) {
     val state by viewModel.actualLanguage.collectAsStateWithLifecycle()
 
     SettingsScreen(
         state = state,
         onSelectedLanguage = { language ->
             viewModel.changeLanguage(language)
-        }
+        },
     )
 }
 
@@ -54,34 +52,38 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier
-                    .padding(top = 16.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 16.dp),
                 title = {
                     Text(
                         text = stringResource(id = R.string.settings),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.displaySmall,
                     )
-                }
+                },
             )
         },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
         ) {
             ExposedDropdownMenuBox(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
                 expanded = expanded,
                 onExpandedChange = {
                     expanded = !expanded
-                }
+                },
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
                 ) {
                     TextField(
                         modifier = Modifier.menuAnchor(),
@@ -102,7 +104,7 @@ fun SettingsScreen(
                                 onSelectedLanguage(it.code)
                                 expanded = false
                             },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                         )
                     }
                 }

@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MedicationDao {
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMedication(medicationEntity: MedicationEntity): Long
 
@@ -25,7 +24,7 @@ interface MedicationDao {
         """
             SELECT *
             FROM medicationentity
-        """
+        """,
     )
     fun getAllMedications(): Flow<List<MedicationEntity>>
 
@@ -35,7 +34,7 @@ interface MedicationDao {
             FROM medicationentity
             WHERE strftime('%Y-%m-%d', medicationTime / 1000, 'unixepoch', 'localtime') = :date
             ORDER BY medicationTime ASC
-        """
+        """,
     )
     fun getMedicationsForDate(date: String): Flow<List<MedicationEntity>>
 

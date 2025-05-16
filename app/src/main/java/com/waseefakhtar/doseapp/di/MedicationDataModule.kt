@@ -16,7 +16,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object MedicationDataModule {
-
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
@@ -24,7 +23,7 @@ object MedicationDataModule {
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
-                }
+                },
             )
             .build()
     }
@@ -35,17 +34,15 @@ object MedicationDataModule {
         return Room.databaseBuilder(
             app,
             MedicationDatabase::class.java,
-            "medication_db"
+            "medication_db",
         ).build()
     }
 
     @Provides
     @Singleton
-    fun provideMedicationRepository(
-        db: MedicationDatabase
-    ): MedicationRepository {
+    fun provideMedicationRepository(db: MedicationDatabase): MedicationRepository {
         return MedicationRepositoryImpl(
-            dao = db.dao
+            dao = db.dao,
         )
     }
 }

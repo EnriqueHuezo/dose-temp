@@ -10,19 +10,21 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class MedicationRepositoryImpl(
-    private val dao: MedicationDao
+    private val dao: MedicationDao,
 ) : MedicationRepository {
-
-    override suspend fun insertMedications(medications: List<Medication>): Flow<List<Medication>> = flow {
-        val savedIds = medications.map { medication ->
-            dao.insertMedication(medication.toMedicationEntity())
+    override suspend fun insertMedications(medications: List<Medication>): Flow<List<Medication>> =
+        flow {
+            val savedIds =
+                medications.map { medication ->
+                    dao.insertMedication(medication.toMedicationEntity())
+                }
+            // Get the saved medications with their IDs
+            val savedMedications =
+                medications.mapIndexed { index, medication ->
+                    medication.copy(id = savedIds[index])
+                }
+            emit(savedMedications)
         }
-        // Get the saved medications with their IDs
-        val savedMedications = medications.mapIndexed { index, medication ->
-            medication.copy(id = savedIds[index])
-        }
-        emit(savedMedications)
-    }
 
     override suspend fun deleteMedication(medication: Medication) {
         dao.deleteMedication(medication.toMedicationEntity())
@@ -40,7 +42,7 @@ class MedicationRepositoryImpl(
 
     override fun getMedicationsForDate(date: String): Flow<List<Medication>> {
         return dao.getMedicationsForDate(
-            date = date
+            date = date,
         ).map { entities ->
             entities.map { it.toMedication() }
         }

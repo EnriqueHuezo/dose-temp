@@ -19,6 +19,6 @@ fun CalendarScreen() {
     Text(
         text = "Coming Soon \uD83D\uDEA7",
         fontWeight = FontWeight.Bold,
-        style = MaterialTheme.typography.displaySmall
+        style = MaterialTheme.typography.displaySmall,
     )
 }

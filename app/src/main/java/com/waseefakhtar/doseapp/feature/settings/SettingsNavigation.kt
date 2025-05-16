@@ -13,7 +13,7 @@ object SettingsNavigation : DoseNavigationDestination {
 
 fun NavGraphBuilder.settingsGraph(
     bottomBarVisibility: MutableState<Boolean>,
-    fabVisibility: MutableState<Boolean>
+    fabVisibility: MutableState<Boolean>,
 ) {
     composable(route = SettingsNavigation.route) {
         LaunchedEffect(null) {

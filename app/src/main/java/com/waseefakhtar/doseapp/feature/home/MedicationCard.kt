@@ -32,75 +32,39 @@ import java.util.Date
 @Composable
 fun MedicationCard(
     medication: Medication,
-    navigateToMedicationDetail: (Medication) -> Unit
+    navigateToMedicationDetail: (Medication) -> Unit,
 ) {
     val (cardColor, boxColor, textColor) = medication.type.getCardColor()
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
         onClick = { navigateToMedicationDetail(medication) },
         shape = RoundedCornerShape(30.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(cardColor),
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor = Color(cardColor),
+            ),
     ) {
         Row(
             modifier = Modifier.padding(24.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
                 modifier = Modifier.weight(2f),
-                horizontalAlignment = Alignment.Start
+                horizontalAlignment = Alignment.Start,
             ) {
                 Text(
                     text = medication.name,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleLarge,
-                    color = Color(boxColor)
+                    color = Color(boxColor),
                 )
 
                 val doseAndType = "${medication.dosage} ${
-                stringResource(
-                    when (medication.type) {
-                        MedicationType.TABLET -> R.string.tablet
-                        MedicationType.CAPSULE -> R.string.capsule
-                        MedicationType.SYRUP -> R.string.type_syrup
-                        MedicationType.DROPS -> R.string.drops
-                        MedicationType.SPRAY -> R.string.spray
-                        MedicationType.GEL -> R.string.gel
-                    }
-                ).lowercase()
-                }"
-
-                Text(
-                    text = doseAndType,
-                    color = Color(boxColor)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(64.dp)
-                    .aspectRatio(1f)
-                    .border(
-                        width = 1.5.dp, color = Color(boxColor), shape = RoundedCornerShape(16.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(
-                        when (medication.type) {
-                            MedicationType.TABLET -> R.drawable.ic_tablet
-                            MedicationType.CAPSULE -> R.drawable.ic_capsule
-                            MedicationType.SYRUP -> R.drawable.ic_syrup
-                            MedicationType.DROPS -> R.drawable.ic_drops
-                            MedicationType.SPRAY -> R.drawable.ic_spray
-                            MedicationType.GEL -> R.drawable.ic_gel
-                        }
-                    ),
-                    contentDescription = stringResource(
+                    stringResource(
                         when (medication.type) {
                             MedicationType.TABLET -> R.string.tablet
                             MedicationType.CAPSULE -> R.string.capsule
@@ -108,10 +72,53 @@ fun MedicationCard(
                             MedicationType.DROPS -> R.string.drops
                             MedicationType.SPRAY -> R.string.spray
                             MedicationType.GEL -> R.string.gel
-                        }
-                    ),
+                        },
+                    ).lowercase()
+                }"
+
+                Text(
+                    text = doseAndType,
+                    color = Color(boxColor),
+                )
+            }
+
+            Box(
+                modifier =
+                    Modifier
+                        .height(64.dp)
+                        .aspectRatio(1f)
+                        .border(
+                            width = 1.5.dp,
+                            color = Color(boxColor),
+                            shape = RoundedCornerShape(16.dp),
+                        ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    painter =
+                        painterResource(
+                            when (medication.type) {
+                                MedicationType.TABLET -> R.drawable.ic_tablet
+                                MedicationType.CAPSULE -> R.drawable.ic_capsule
+                                MedicationType.SYRUP -> R.drawable.ic_syrup
+                                MedicationType.DROPS -> R.drawable.ic_drops
+                                MedicationType.SPRAY -> R.drawable.ic_spray
+                                MedicationType.GEL -> R.drawable.ic_gel
+                            },
+                        ),
+                    contentDescription =
+                        stringResource(
+                            when (medication.type) {
+                                MedicationType.TABLET -> R.string.tablet
+                                MedicationType.CAPSULE -> R.string.capsule
+                                MedicationType.SYRUP -> R.string.type_syrup
+                                MedicationType.DROPS -> R.string.drops
+                                MedicationType.SPRAY -> R.string.spray
+                                MedicationType.GEL -> R.string.gel
+                            },
+                        ),
                     modifier = Modifier.size(42.dp),
-                    tint = Color(boxColor)
+                    tint = Color(boxColor),
                 )
             }
         }
@@ -130,8 +137,8 @@ private fun MedicationCardTakeNowPreview() {
             startDate = Date(),
             endDate = Date(),
             medicationTime = Date(),
-            medicationTaken = false
-        )
+            medicationTaken = false,
+        ),
     ) { }
 }
 
@@ -148,7 +155,7 @@ private fun MedicationCardTakenPreview() {
             endDate = Date(),
             medicationTime = Date(),
             medicationTaken = true,
-            type = MedicationType.TABLET
-        )
+            type = MedicationType.TABLET,
+        ),
     ) { }
 }

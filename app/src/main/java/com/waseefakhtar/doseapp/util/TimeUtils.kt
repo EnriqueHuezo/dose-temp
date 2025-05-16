@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
 const val HOUR_MINUTE_FORMAT = "h:mm a"
+
 @Composable
 fun getTimeRemaining(medication: Medication): String {
     val currentTime = Calendar.getInstance().time

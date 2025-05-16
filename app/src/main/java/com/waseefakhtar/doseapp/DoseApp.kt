@@ -54,20 +54,18 @@ import com.waseefakhtar.doseapp.ui.theme.DoseAppTheme
 import com.waseefakhtar.doseapp.util.SnackbarUtil
 
 @Composable
-fun DoseApp(
-    analyticsHelper: AnalyticsHelper
-) {
+fun DoseApp(analyticsHelper: AnalyticsHelper) {
     DoseAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
-
             val navController = rememberNavController()
-            val doseTopLevelNavigation = remember(navController) {
-                DoseTopLevelNavigation(navController)
-            }
+            val doseTopLevelNavigation =
+                remember(navController) {
+                    DoseTopLevelNavigation(navController)
+                }
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
@@ -80,21 +78,20 @@ fun DoseApp(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 floatingActionButton = {
-
                     AnimatedVisibility(
                         visible = fabVisibility.value,
                         enter = slideInVertically(initialOffsetY = { it }),
                         exit = slideOutVertically(targetOffsetY = { it }),
                         content = {
                             DoseFAB(navController, analyticsHelper)
-                        }
+                        },
                     )
                 },
                 bottomBar = {
                     Box {
                         SnackbarUtil.SnackbarWithoutScaffold(
                             SnackbarUtil.getSnackbarMessage().component1(),
-                            SnackbarUtil.isSnackbarVisible().component1()
+                            SnackbarUtil.isSnackbarVisible().component1(),
                         ) {
                             SnackbarUtil.hideSnackbar()
                         }
@@ -106,31 +103,31 @@ fun DoseApp(
                                 DoseBottomBar(
                                     onNavigateToTopLevelDestination = doseTopLevelNavigation::navigateTo,
                                     currentDestination = currentDestination,
-                                    analyticsHelper = analyticsHelper
+                                    analyticsHelper = analyticsHelper,
                                 )
-                            }
+                            },
                         )
                     }
-                }
+                },
             ) { padding ->
                 Row(
                     Modifier
                         .fillMaxSize()
                         .windowInsetsPadding(
                             WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal
-                            )
-                        )
+                                WindowInsetsSides.Horizontal,
+                            ),
+                        ),
                 ) {
-
                     DoseNavHost(
                         bottomBarVisibility = bottomBarVisibility,
                         fabVisibility = fabVisibility,
                         navController = navController,
-                        modifier = Modifier
-                            .padding(padding)
-                            .consumeWindowInsets(padding)
-                            .zIndex(1f)
+                        modifier =
+                            Modifier
+                                .padding(padding)
+                                .consumeWindowInsets(padding)
+                                .zIndex(1f),
                     )
                 }
             }
@@ -142,30 +139,30 @@ fun DoseApp(
 private fun DoseBottomBar(
     onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?,
-    analyticsHelper: AnalyticsHelper
+    analyticsHelper: AnalyticsHelper,
 ) {
     // Wrap the navigation bar in a surface so the color behind the system
     // navigation is equal to the container color of the navigation bar.
     Surface(color = MaterialTheme.colorScheme.surface) {
         NavigationBar(
-            modifier = Modifier.windowInsetsPadding(
-                WindowInsets.safeDrawing.only(
-                    WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
-                )
-            ),
-            tonalElevation = 0.dp
+            modifier =
+                Modifier.windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(
+                        WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom,
+                    ),
+                ),
+            tonalElevation = 0.dp,
         ) {
-
             TOP_LEVEL_DESTINATIONS.forEach { destination ->
                 val selected =
                     currentDestination?.hierarchy?.any { it.route == destination.route } == true
                 NavigationBarItem(
                     selected = selected,
                     onClick =
-                    {
-                        trackTabClicked(analyticsHelper, destination.route)
-                        onNavigateToTopLevelDestination(destination)
-                    },
+                        {
+                            trackTabClicked(analyticsHelper, destination.route)
+                            onNavigateToTopLevelDestination(destination)
+                        },
                     icon = {
                         Icon(
                             if (selected) {
@@ -173,17 +170,20 @@ private fun DoseBottomBar(
                             } else {
                                 destination.unselectedIcon
                             },
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     },
-                    label = { Text(stringResource(destination.iconTextId)) }
+                    label = { Text(stringResource(destination.iconTextId)) },
                 )
             }
         }
     }
 }
 
-private fun trackTabClicked(analyticsHelper: AnalyticsHelper, route: String) {
+private fun trackTabClicked(
+    analyticsHelper: AnalyticsHelper,
+    route: String,
+) {
     if (route == HomeDestination.route) {
         analyticsHelper.logEvent(AnalyticsEvents.HOME_TAB_CLICKED)
     }
@@ -194,13 +194,16 @@ private fun trackTabClicked(analyticsHelper: AnalyticsHelper, route: String) {
 }
 
 @Composable
-fun DoseFAB(navController: NavController, analyticsHelper: AnalyticsHelper) {
+fun DoseFAB(
+    navController: NavController,
+    analyticsHelper: AnalyticsHelper,
+) {
     ExtendedFloatingActionButton(
         text = { Text(text = stringResource(id = R.string.add_medication)) },
         icon = {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = stringResource(R.string.add)
+                contentDescription = stringResource(R.string.add),
             )
         },
         onClick = {
@@ -208,7 +211,7 @@ fun DoseFAB(navController: NavController, analyticsHelper: AnalyticsHelper) {
             navController.navigate(AddMedicationDestination.route)
         },
         elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp),
-        containerColor = MaterialTheme.colorScheme.tertiary
+        containerColor = MaterialTheme.colorScheme.tertiary,
     )
 }
 

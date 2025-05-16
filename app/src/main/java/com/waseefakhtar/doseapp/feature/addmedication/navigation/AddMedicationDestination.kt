@@ -16,7 +16,13 @@ object AddMedicationDestination : DoseNavigationDestination {
     override val destination = "add_medication_destination"
 }
 
-fun NavGraphBuilder.addMedicationGraph(navController: NavController, bottomBarVisibility: MutableState<Boolean>, fabVisibility: MutableState<Boolean>, onBackClicked: () -> Unit, navigateToMedicationConfirm: (List<Medication>) -> Unit) {
+fun NavGraphBuilder.addMedicationGraph(
+    navController: NavController,
+    bottomBarVisibility: MutableState<Boolean>,
+    fabVisibility: MutableState<Boolean>,
+    onBackClicked: () -> Unit,
+    navigateToMedicationConfirm: (List<Medication>) -> Unit,
+) {
     composable(route = AddMedicationDestination.route) {
         LaunchedEffect(null) {
             bottomBarVisibility.value = false

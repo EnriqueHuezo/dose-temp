@@ -11,11 +11,13 @@ import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(
-    private val getSelectedLanguageUseCase: GetSelectedLanguageUseCase
-) : ViewModel() {
-    fun getLanguageCode(): Flow<String> =
-        getSelectedLanguageUseCase.execute()
-            .flowOn(Dispatchers.IO)
-            .map { it.ifBlank { Locale.getDefault().language } }
-}
+class MainActivityViewModel
+    @Inject
+    constructor(
+        private val getSelectedLanguageUseCase: GetSelectedLanguageUseCase,
+    ) : ViewModel() {
+        fun getLanguageCode(): Flow<String> =
+            getSelectedLanguageUseCase.execute()
+                .flowOn(Dispatchers.IO)
+                .map { it.ifBlank { Locale.getDefault().language } }
+    }

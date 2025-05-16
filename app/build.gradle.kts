@@ -86,7 +86,6 @@ dependencies {
     implementation(libs.gson) // Serializacion GSON
     implementation(libs.kotlinx.serialization.json) // Serializacion Kotlinx
 
-
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
@@ -116,4 +115,11 @@ dependencies {
     androidTestImplementation(libs.compose.junit.ui)
     debugImplementation(libs.compose.ui.tooling.debug)
     debugImplementation(libs.compose.ui.test.manifest)
+}
+
+ktlint {
+    android.set(true)
+    outputToConsole.set(true)
+    ignoreFailures.set(false)
+    enableExperimentalRules.set(false)
 }

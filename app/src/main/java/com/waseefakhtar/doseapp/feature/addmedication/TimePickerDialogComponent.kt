@@ -10,7 +10,7 @@ import java.util.Calendar
 fun TimePickerDialogComponent(
     showDialog: Boolean,
     selectedDate: CalendarInformation,
-    onSelectedTime: (selectedDate: CalendarInformation) -> Unit
+    onSelectedTime: (selectedDate: CalendarInformation) -> Unit,
 ) {
     val listener = setUpOnTimeSetListener(onSelectedTime)
     val timePickerDialog = getTimePickerDialog(selectedDate, listener)
@@ -19,14 +19,13 @@ fun TimePickerDialogComponent(
     }
 }
 
-private fun setUpOnTimeSetListener(
-    onSelectedTime: (selectedDate: CalendarInformation) -> Unit
-): TimePickerDialog.OnTimeSetListener {
+private fun setUpOnTimeSetListener(onSelectedTime: (selectedDate: CalendarInformation) -> Unit): TimePickerDialog.OnTimeSetListener {
     return TimePickerDialog.OnTimeSetListener { timePicker, hourOfDay, minute ->
-        val newDate = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, hourOfDay)
-            set(Calendar.MINUTE, minute)
-        }
+        val newDate =
+            Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourOfDay)
+                set(Calendar.MINUTE, minute)
+            }
         onSelectedTime(CalendarInformation(newDate))
     }
 }
@@ -34,7 +33,7 @@ private fun setUpOnTimeSetListener(
 @Composable
 private fun getTimePickerDialog(
     selectedDate: CalendarInformation,
-    listener: TimePickerDialog.OnTimeSetListener
+    listener: TimePickerDialog.OnTimeSetListener,
 ): TimePickerDialog {
     val context = LocalContext.current
     val (hour, minute) = selectedDate.dateInformation
@@ -43,6 +42,6 @@ private fun getTimePickerDialog(
         listener,
         hour,
         minute,
-        false
+        false,
     )
 }
