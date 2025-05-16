@@ -48,3 +48,18 @@ jobs:
 
     - name: Build and run tests
       run: ./gradlew build test
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: app/build/reports/tests/
+
+    - name: Print test summary
+      if: always()
+      run: |
+        find app/build/reports/tests -name "*.xml" -exec grep -l "<failure" {} \; | while read file; do
+          echo "Test failures in $file:"
+          grep "<testcase" "$file" | grep -B1 "<failure" || echo "No test failures"
+        done
