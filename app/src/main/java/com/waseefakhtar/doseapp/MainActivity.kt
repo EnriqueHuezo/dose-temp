@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
@@ -57,7 +56,7 @@ class MainActivity : ComponentActivity() {
             localeManager.applicationLocales = LocaleList.forLanguageTags(languageCode)
         } else {
             AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.forLanguageTags(languageCode)
+                LocaleListCompat.forLanguageTags(languageCode),
             )
         }
     }

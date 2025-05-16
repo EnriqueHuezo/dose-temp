@@ -5,7 +5,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 
 object JsonUtils {
-    inline fun <reified T> decodeJson(jsonString: String?, default: T): T {
+    inline fun <reified T> decodeJson(
+        jsonString: String?,
+        default: T,
+    ): T {
         return jsonString?.let { Json.decodeFromString(it) } ?: default
     }
 

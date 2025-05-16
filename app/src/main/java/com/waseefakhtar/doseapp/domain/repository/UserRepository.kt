@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun getUserDataLocal(): Flow<UserData>
+
     suspend fun saveUserDataAsync(userData: UserData)
 }

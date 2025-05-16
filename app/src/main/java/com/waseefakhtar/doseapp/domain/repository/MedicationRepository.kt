@@ -4,7 +4,6 @@ import com.waseefakhtar.doseapp.domain.model.Medication
 import kotlinx.coroutines.flow.Flow
 
 interface MedicationRepository {
-
     suspend fun insertMedications(medications: List<Medication>): Flow<List<Medication>>
 
     suspend fun deleteMedication(medication: Medication)

@@ -9,20 +9,26 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class DataStoreHandler(
-    val dataStore: DataStore<Preferences>
+    val dataStore: DataStore<Preferences>,
 ) {
     companion object {
         val USER_DATA = stringPreferencesKey("userData")
     }
 
-    inline fun <reified T> getValue(key: Preferences.Key<String>, default: T): Flow<T> {
+    inline fun <reified T> getValue(
+        key: Preferences.Key<String>,
+        default: T,
+    ): Flow<T> {
         return dataStore.data.map { preferences ->
             val jsonString = preferences[key]
             JsonUtils.decodeJson(jsonString, default)
         }
     }
 
-    suspend inline fun <reified T> saveValue(key: Preferences.Key<String>, value: T) {
+    suspend inline fun <reified T> saveValue(
+        key: Preferences.Key<String>,
+        value: T,
+    ) {
         val jsonString = JsonUtils.encodeJson(value)
         dataStore.edit { preferences ->
             preferences[key] = jsonString

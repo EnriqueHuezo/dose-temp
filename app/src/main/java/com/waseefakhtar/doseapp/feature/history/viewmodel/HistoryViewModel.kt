@@ -13,24 +13,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoryViewModel @Inject constructor(
-    private val getMedicationsUseCase: GetMedicationsUseCase
-) : ViewModel() {
+class HistoryViewModel
+    @Inject
+    constructor(
+        private val getMedicationsUseCase: GetMedicationsUseCase,
+    ) : ViewModel() {
+        var state by mutableStateOf(HistoryState())
+            private set
 
-    var state by mutableStateOf(HistoryState())
-        private set
+        init {
+            loadMedications()
+        }
 
-    init {
-        loadMedications()
-    }
-
-    fun loadMedications() {
-        viewModelScope.launch {
-            getMedicationsUseCase.getMedications().onEach { medicationList ->
-                state = state.copy(
-                    medications = medicationList
-                )
-            }.launchIn(viewModelScope)
+        fun loadMedications() {
+            viewModelScope.launch {
+                getMedicationsUseCase.getMedications().onEach { medicationList ->
+                    state =
+                        state.copy(
+                            medications = medicationList,
+                        )
+                }.launchIn(viewModelScope)
+            }
         }
     }
-}

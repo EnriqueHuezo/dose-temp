@@ -26,7 +26,7 @@ fun DoseNavHost(
     fabVisibility: MutableState<Boolean>,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = HomeDestination.route
+    startDestination: String = HomeDestination.route,
 ) {
     NavHost(
         navController = navController,
@@ -39,29 +39,29 @@ fun DoseNavHost(
             fabVisibility = fabVisibility,
             navigateToMedicationDetail = { medication ->
                 navController.navigate(
-                    MedicationDetailDestination.createNavigationRoute(medication.id)
+                    MedicationDetailDestination.createNavigationRoute(medication.id),
                 )
-            }
+            },
         )
         historyGraph(
             bottomBarVisibility = bottomBarVisibility,
             fabVisibility = fabVisibility,
             navigateToMedicationDetail = { medication ->
                 navController.navigate(
-                    MedicationDetailDestination.createNavigationRoute(medication.id)
+                    MedicationDetailDestination.createNavigationRoute(medication.id),
                 )
-            }
+            },
         )
 
         settingsGraph(
             bottomBarVisibility = bottomBarVisibility,
-            fabVisibility = fabVisibility
+            fabVisibility = fabVisibility,
         )
 
         medicationDetailGraph(
             bottomBarVisibility = bottomBarVisibility,
             fabVisibility = fabVisibility,
-            onBackClicked = { navController.navigateUp() }
+            onBackClicked = { navController.navigateUp() },
         )
         calendarGraph(bottomBarVisibility, fabVisibility)
         addMedicationGraph(
@@ -77,7 +77,7 @@ fun DoseNavHost(
                     this?.set(MEDICATION, bundle)
                 }
                 navController.navigate(MedicationConfirmDestination.route)
-            }
+            },
         )
         medicationConfirmGraph(
             navController = navController,
@@ -86,7 +86,7 @@ fun DoseNavHost(
             onBackClicked = { navController.navigateUp() },
             navigateToHome = {
                 navController.navigateSingleTop(HomeDestination.route)
-            }
+            },
         )
     }
 }

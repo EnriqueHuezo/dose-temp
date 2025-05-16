@@ -129,8 +129,8 @@ fun AddMedicationScreen(
         topBar = {
             TopAppBar(
                 modifier =
-                Modifier
-                    .padding(vertical = 16.dp),
+                    Modifier
+                        .padding(vertical = 16.dp),
                 navigationIcon = {
                     FloatingActionButton(
                         onClick = {
@@ -158,10 +158,10 @@ fun AddMedicationScreen(
         bottomBar = {
             Button(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-                    .height(56.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
+                        .height(56.dp),
                 onClick = {
                     validateMedication(
                         name = medicationName,
@@ -205,9 +205,9 @@ fun AddMedicationScreen(
     ) { innerPadding ->
         Column(
             modifier =
-            Modifier
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState()),
+                Modifier
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             TextField(
@@ -237,15 +237,16 @@ fun AddMedicationScreen(
                     label = { Text(stringResource(R.string.duration)) },
                     placeholder = { Text(stringResource(R.string.select_duration)) },
                     trailingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) },
-                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
-                        LaunchedEffect(interactionSource) {
-                            interactionSource.interactions.collect {
-                                if (it is PressInteraction.Release) {
-                                    showDatePicker = true
+                    interactionSource =
+                        remember { MutableInteractionSource() }.also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if (it is PressInteraction.Release) {
+                                        showDatePicker = true
+                                    }
                                 }
                             }
-                        }
-                    },
+                        },
                 )
             }
 
@@ -326,24 +327,25 @@ fun AddMedicationScreen(
                 Text(
                     text = stringResource(R.string.type),
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(start = 0.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(start = 0.dp, bottom = 8.dp),
                 )
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(3),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                        .padding(horizontal = 0.dp),
-                    userScrollEnabled = false
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                            .padding(horizontal = 0.dp),
+                    userScrollEnabled = false,
                 ) {
                     items(MedicationType.entries) { type ->
                         MedicationTypeBox(
                             type = type,
                             isSelected = type == medicationType,
-                            onSelect = { medicationType = type }
+                            onSelect = { medicationType = type },
                         )
                     }
                 }
@@ -397,7 +399,7 @@ private fun validateMedication(
             startDate = Date(startDate),
             endDate = Date(endDate),
             medicationTimes = selectedTimes,
-            type = type
+            type = type,
         )
 
     onValidate(medications)
@@ -416,24 +418,26 @@ fun FrequencyDropdownMenu(frequency: (String) -> Unit) {
     ) {
         TextField(
             modifier =
-            Modifier
-                .menuAnchor()
-                .fillMaxWidth(),
+                Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
             readOnly = true,
             value =
-            when (selectedOption.stringResId) {
-                R.string.every_n_days -> stringResource(
-                    selectedOption.stringResId,
-                    selectedOption.days
-                )
+                when (selectedOption.stringResId) {
+                    R.string.every_n_days ->
+                        stringResource(
+                            selectedOption.stringResId,
+                            selectedOption.days,
+                        )
 
-                R.string.every_n_weeks -> stringResource(
-                    selectedOption.stringResId,
-                    selectedOption.days / 7
-                )
+                    R.string.every_n_weeks ->
+                        stringResource(
+                            selectedOption.stringResId,
+                            selectedOption.days / 7,
+                        )
 
-                else -> stringResource(selectedOption.stringResId)
-            },
+                    else -> stringResource(selectedOption.stringResId)
+                },
             onValueChange = {},
             label = { Text(stringResource(id = R.string.frequency)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -530,64 +534,82 @@ private fun buildDateRangeText(
 private fun MedicationTypeBox(
     type: MedicationType,
     isSelected: Boolean,
-    onSelect: () -> Unit
+    onSelect: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(12.dp))
-            .background(
-                if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surface
-            )
-            .border(
-                width = 1.dp,
-                color = if (isSelected) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.outline,
-                shape = RoundedCornerShape(12.dp)
-            )
-            .clickable(onClick = onSelect)
-            .padding(12.dp)
+        modifier =
+            Modifier
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(12.dp))
+                .background(
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.surface
+                    },
+                )
+                .border(
+                    width = 1.dp,
+                    color =
+                        if (isSelected) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.outline
+                        },
+                    shape = RoundedCornerShape(12.dp),
+                )
+                .clickable(onClick = onSelect)
+                .padding(12.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Icon(
-                painter = painterResource(
-                    when (type) {
-                        MedicationType.TABLET -> R.drawable.ic_tablet
-                        MedicationType.CAPSULE -> R.drawable.ic_capsule
-                        MedicationType.SYRUP -> R.drawable.ic_syrup
-                        MedicationType.DROPS -> R.drawable.ic_drops
-                        MedicationType.SPRAY -> R.drawable.ic_spray
-                        MedicationType.GEL -> R.drawable.ic_gel
-                    }
-                ),
+                painter =
+                    painterResource(
+                        when (type) {
+                            MedicationType.TABLET -> R.drawable.ic_tablet
+                            MedicationType.CAPSULE -> R.drawable.ic_capsule
+                            MedicationType.SYRUP -> R.drawable.ic_syrup
+                            MedicationType.DROPS -> R.drawable.ic_drops
+                            MedicationType.SPRAY -> R.drawable.ic_spray
+                            MedicationType.GEL -> R.drawable.ic_gel
+                        },
+                    ),
                 contentDescription = null,
                 modifier = Modifier.size(40.dp),
-                tint = if (isSelected) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.onSurface
+                tint =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    },
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = stringResource(
-                    when (type) {
-                        MedicationType.TABLET -> R.string.tablet
-                        MedicationType.CAPSULE -> R.string.capsule
-                        MedicationType.SYRUP -> R.string.type_syrup
-                        MedicationType.DROPS -> R.string.drops
-                        MedicationType.SPRAY -> R.string.spray
-                        MedicationType.GEL -> R.string.gel
-                    }
-                ),
+                text =
+                    stringResource(
+                        when (type) {
+                            MedicationType.TABLET -> R.string.tablet
+                            MedicationType.CAPSULE -> R.string.capsule
+                            MedicationType.SYRUP -> R.string.type_syrup
+                            MedicationType.DROPS -> R.string.drops
+                            MedicationType.SPRAY -> R.string.spray
+                            MedicationType.GEL -> R.string.gel
+                        },
+                    ),
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
-                color = if (isSelected) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.onSurface
+                color =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    },
             )
         }
     }

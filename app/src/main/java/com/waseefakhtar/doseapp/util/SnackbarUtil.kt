@@ -17,7 +17,6 @@ import com.waseefakhtar.doseapp.ui.theme.Pink40
 import kotlinx.coroutines.launch
 
 class SnackbarUtil {
-
     companion object {
         private val snackbarMessage = mutableStateOf("")
         private var isSnackbarVisible = mutableStateOf(false)
@@ -39,25 +38,26 @@ class SnackbarUtil {
         fun SnackbarWithoutScaffold(
             message: String,
             isVisible: Boolean,
-            onVisibilityChange: (Boolean) -> Unit
+            onVisibilityChange: (Boolean) -> Unit,
         ) {
             val snackState = remember { SnackbarHostState() }
             val snackScope = rememberCoroutineScope()
 
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .zIndex(10f),
-                contentAlignment = Alignment.BottomCenter
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .zIndex(10f),
+                contentAlignment = Alignment.BottomCenter,
             ) {
                 SnackbarHost(
                     modifier = Modifier,
-                    hostState = snackState
+                    hostState = snackState,
                 ) {
                     Snackbar(
                         snackbarData = it,
                         containerColor = Pink40,
-                        contentColor = androidx.compose.ui.graphics.Color.White
+                        contentColor = androidx.compose.ui.graphics.Color.White,
                     )
                 }
             }

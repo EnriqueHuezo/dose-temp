@@ -16,7 +16,6 @@ import com.waseefakhtar.doseapp.feature.home.navigation.HomeDestination
 import com.waseefakhtar.doseapp.feature.settings.SettingsNavigation
 
 class DoseTopLevelNavigation(private val navController: NavHostController) {
-
     fun navigateTo(destination: TopLevelDestination) {
         navController.navigate(destination.route) {
             // Pop up to the start destination of the graph to
@@ -38,26 +37,27 @@ data class TopLevelDestination(
     val route: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
-    val iconTextId: Int
+    val iconTextId: Int,
 )
 
-val TOP_LEVEL_DESTINATIONS = listOf(
-    TopLevelDestination(
-        route = HomeDestination.route,
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home,
-        iconTextId = R.string.home
-    ),
-    TopLevelDestination(
-        route = HistoryDestination.route,
-        selectedIcon = Icons.Filled.DateRange,
-        unselectedIcon = Icons.Outlined.DateRange,
-        iconTextId = R.string.history
-    ),
-    TopLevelDestination(
-        route = SettingsNavigation.route,
-        selectedIcon = Icons.Filled.Settings,
-        unselectedIcon = Icons.Outlined.Settings,
-        iconTextId = R.string.settings
+val TOP_LEVEL_DESTINATIONS =
+    listOf(
+        TopLevelDestination(
+            route = HomeDestination.route,
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
+            iconTextId = R.string.home,
+        ),
+        TopLevelDestination(
+            route = HistoryDestination.route,
+            selectedIcon = Icons.Filled.DateRange,
+            unselectedIcon = Icons.Outlined.DateRange,
+            iconTextId = R.string.history,
+        ),
+        TopLevelDestination(
+            route = SettingsNavigation.route,
+            selectedIcon = Icons.Filled.Settings,
+            unselectedIcon = Icons.Outlined.Settings,
+            iconTextId = R.string.settings,
+        ),
     )
-)

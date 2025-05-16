@@ -12,28 +12,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-    private val getSelectedLanguageUseCase: GetSelectedLanguageUseCase,
-    private val saveAppLanguageUseCase: SaveAppLanguageUseCase
-): ViewModel() {
-    private val _actualLanguage = MutableStateFlow("")
-    val actualLanguage = _actualLanguage
+class SettingsViewModel
+    @Inject
+    constructor(
+        private val getSelectedLanguageUseCase: GetSelectedLanguageUseCase,
+        private val saveAppLanguageUseCase: SaveAppLanguageUseCase,
+    ) : ViewModel() {
+        private val _actualLanguage = MutableStateFlow("")
+        val actualLanguage = _actualLanguage
 
-    init {
-        getLanguageCode()
-    }
+        init {
+            getLanguageCode()
+        }
 
-    private fun getLanguageCode() {
-        viewModelScope.launch {
-            getSelectedLanguageUseCase.execute().collect { code ->
-                _actualLanguage.update { LanguageEnum.getLabel(code) }
+        private fun getLanguageCode() {
+            viewModelScope.launch {
+                getSelectedLanguageUseCase.execute().collect { code ->
+                    _actualLanguage.update { LanguageEnum.getLabel(code) }
+                }
+            }
+        }
+
+        fun changeLanguage(languageCode: String) {
+            viewModelScope.launch {
+                saveAppLanguageUseCase.execute(languageCode)
             }
         }
     }
-
-    fun changeLanguage(languageCode: String) {
-        viewModelScope.launch {
-            saveAppLanguageUseCase.execute(languageCode)
-        }
-    }
-}

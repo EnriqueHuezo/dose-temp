@@ -21,18 +21,20 @@ object MedicationDetailDestination : DoseNavigationDestination {
 fun NavGraphBuilder.medicationDetailGraph(
     bottomBarVisibility: MutableState<Boolean>,
     fabVisibility: MutableState<Boolean>,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
 ) {
     composable(
         route = MedicationDetailDestination.route,
-        arguments = listOf(
-            navArgument(MEDICATION_ID) { type = NavType.LongType }
-        ),
-        deepLinks = listOf(
-            navDeepLink {
-                uriPattern = DEEP_LINK_URI_PATTERN
-            }
-        )
+        arguments =
+            listOf(
+                navArgument(MEDICATION_ID) { type = NavType.LongType },
+            ),
+        deepLinks =
+            listOf(
+                navDeepLink {
+                    uriPattern = DEEP_LINK_URI_PATTERN
+                },
+            ),
     ) { backStackEntry ->
         LaunchedEffect(null) {
             bottomBarVisibility.value = false
@@ -43,7 +45,7 @@ fun NavGraphBuilder.medicationDetailGraph(
 
         MedicationDetailRoute(
             medicationId = medicationId,
-            onBackClicked = onBackClicked
+            onBackClicked = onBackClicked,
         )
     }
 }

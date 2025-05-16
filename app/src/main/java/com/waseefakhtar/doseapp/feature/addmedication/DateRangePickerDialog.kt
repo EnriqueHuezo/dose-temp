@@ -57,8 +57,8 @@ fun DateRangePickerDialog(
             confirmButton = {
                 TextButton(
                     enabled =
-                    dateRangePickerState.selectedStartDateMillis != null &&
-                        dateRangePickerState.selectedEndDateMillis != null,
+                        dateRangePickerState.selectedStartDateMillis != null &&
+                            dateRangePickerState.selectedEndDateMillis != null,
                     onClick = {
                         dateRangePickerState.selectedStartDateMillis?.let { start ->
                             dateRangePickerState.selectedEndDateMillis?.let { end ->
@@ -83,11 +83,11 @@ fun DateRangePickerDialog(
                     Text(
                         text = stringResource(R.string.select_duration),
                         modifier =
-                        Modifier.padding(
-                            start = 24.dp,
-                            end = 12.dp,
-                            top = 16.dp,
-                        ),
+                            Modifier.padding(
+                                start = 24.dp,
+                                end = 12.dp,
+                                top = 16.dp,
+                            ),
                     )
                 },
                 headline = {
@@ -102,12 +102,12 @@ fun DateRangePickerDialog(
                             text = formatDurationText(duration),
                             style = MaterialTheme.typography.headlineSmall,
                             modifier =
-                            Modifier
-                                .padding(
-                                    start = 24.dp,
-                                    end = 12.dp,
-                                    bottom = 12.dp,
-                                ).fillMaxWidth(),
+                                Modifier
+                                    .padding(
+                                        start = 24.dp,
+                                        end = 12.dp,
+                                        bottom = 12.dp,
+                                    ).fillMaxWidth(),
                             color = MaterialTheme.colorScheme.primary,
                         )
                     }

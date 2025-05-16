@@ -12,7 +12,11 @@ object HistoryDestination : DoseNavigationDestination {
     override val destination = "history_destination"
 }
 
-fun NavGraphBuilder.historyGraph(bottomBarVisibility: MutableState<Boolean>, fabVisibility: MutableState<Boolean>, navigateToMedicationDetail: (Medication) -> Unit) {
+fun NavGraphBuilder.historyGraph(
+    bottomBarVisibility: MutableState<Boolean>,
+    fabVisibility: MutableState<Boolean>,
+    navigateToMedicationDetail: (Medication) -> Unit,
+) {
     composable(route = HistoryDestination.route) {
         LaunchedEffect(null) {
             bottomBarVisibility.value = true

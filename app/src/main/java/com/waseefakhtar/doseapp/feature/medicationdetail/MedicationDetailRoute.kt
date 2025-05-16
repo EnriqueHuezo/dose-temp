@@ -52,7 +52,7 @@ import com.waseefakhtar.doseapp.util.SnackbarUtil.Companion.showSnackbar
 fun MedicationDetailRoute(
     medicationId: Long?,
     onBackClicked: () -> Unit,
-    viewModel: MedicationDetailViewModel = hiltViewModel()
+    viewModel: MedicationDetailViewModel = hiltViewModel(),
 ) {
     val medication by viewModel.medication.collectAsState()
 
@@ -66,7 +66,7 @@ fun MedicationDetailRoute(
         MedicationDetailScreen(
             medication = it,
             viewModel = viewModel,
-            onBackClicked = onBackClicked
+            onBackClicked = onBackClicked,
         )
     }
 }
@@ -76,7 +76,7 @@ fun MedicationDetailRoute(
 fun MedicationDetailScreen(
     medication: Medication,
     viewModel: MedicationDetailViewModel,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
 ) {
     val (cardColor, boxColor, textColor) = medication.type.getCardColor()
     var isTakenTapped by remember(medication.medicationTaken) {
@@ -103,23 +103,24 @@ fun MedicationDetailScreen(
                             viewModel.logEvent(AnalyticsEvents.MEDICATION_DETAIL_ON_BACK_CLICKED)
                             onBackClicked()
                         },
-                        elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp)
+                        elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = stringResource(id = R.string.back)
+                            contentDescription = stringResource(id = R.string.back),
                         )
                     }
                 },
-                title = {}
+                title = {},
             )
         },
         bottomBar = {
             Column {
                 SingleChoiceSegmentedButtonRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
                 ) {
                     SegmentedButton(
                         modifier = Modifier.padding(horizontal = 8.dp),
@@ -132,11 +133,11 @@ fun MedicationDetailScreen(
                             }
                             viewModel.logEvent(AnalyticsEvents.MEDICATION_DETAIL_TAKEN_CLICKED)
                             viewModel.updateMedication(medication, isTakenTapped)
-                        }
+                        },
                     ) {
                         Text(
                             text = stringResource(id = R.string.taken),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                     }
                     SegmentedButton(
@@ -150,81 +151,88 @@ fun MedicationDetailScreen(
                             }
                             viewModel.logEvent(AnalyticsEvents.MEDICATION_DETAIL_SKIPPED_CLICKED)
                             viewModel.updateMedication(medication, isTakenTapped)
-                        }
+                        },
                     ) {
                         Text(
                             text = stringResource(id = R.string.skipped),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                     }
                 }
 
                 Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp)
-                        .height(56.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp)
+                            .height(56.dp),
                     onClick = {
                         viewModel.logEvent(AnalyticsEvents.MEDICATION_DETAIL_DONE_CLICKED)
                         showSnackbar(context.getString(R.string.medication_logged))
                         onBackClicked()
                     },
-                    shape = MaterialTheme.shapes.extraLarge
+                    shape = MaterialTheme.shapes.extraLarge,
                 ) {
                     Text(
                         text = stringResource(id = R.string.done),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
                     )
                 }
             }
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 modifier = Modifier.padding(16.dp),
                 style = MaterialTheme.typography.titleLarge,
                 text = medication.medicationTime.toFormattedDateString(),
-                color = Color(boxColor)
+                color = Color(boxColor),
             )
 
             Box(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(120.dp)
-                    .border(
-                        width = 1.5.dp, color = Color(boxColor), shape = RoundedCornerShape(64.dp)
-                    ),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .padding(16.dp)
+                        .size(120.dp)
+                        .border(
+                            width = 1.5.dp,
+                            color = Color(boxColor),
+                            shape = RoundedCornerShape(64.dp),
+                        ),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    painter = painterResource(
-                        when (medication.type) {
-                            MedicationType.TABLET -> R.drawable.ic_tablet
-                            MedicationType.CAPSULE -> R.drawable.ic_capsule
-                            MedicationType.SYRUP -> R.drawable.ic_syrup
-                            MedicationType.DROPS -> R.drawable.ic_drops
-                            MedicationType.SPRAY -> R.drawable.ic_spray
-                            MedicationType.GEL -> R.drawable.ic_gel
-                        }
-                    ),
-                    contentDescription = stringResource(
-                        when (medication.type) {
-                            MedicationType.TABLET -> R.string.tablet
-                            MedicationType.CAPSULE -> R.string.capsule
-                            MedicationType.SYRUP -> R.string.type_syrup
-                            MedicationType.DROPS -> R.string.drops
-                            MedicationType.SPRAY -> R.string.spray
-                            MedicationType.GEL -> R.string.gel
-                        }
-                    ),
+                    painter =
+                        painterResource(
+                            when (medication.type) {
+                                MedicationType.TABLET -> R.drawable.ic_tablet
+                                MedicationType.CAPSULE -> R.drawable.ic_capsule
+                                MedicationType.SYRUP -> R.drawable.ic_syrup
+                                MedicationType.DROPS -> R.drawable.ic_drops
+                                MedicationType.SPRAY -> R.drawable.ic_spray
+                                MedicationType.GEL -> R.drawable.ic_gel
+                            },
+                        ),
+                    contentDescription =
+                        stringResource(
+                            when (medication.type) {
+                                MedicationType.TABLET -> R.string.tablet
+                                MedicationType.CAPSULE -> R.string.capsule
+                                MedicationType.SYRUP -> R.string.type_syrup
+                                MedicationType.DROPS -> R.string.drops
+                                MedicationType.SPRAY -> R.string.spray
+                                MedicationType.GEL -> R.string.gel
+                            },
+                        ),
                     modifier = Modifier.size(64.dp),
-                    tint = Color(boxColor)
+                    tint = Color(boxColor),
                 )
             }
 
@@ -232,26 +240,26 @@ fun MedicationDetailScreen(
                 text = medication.name,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.headlineLarge,
-                color = Color(boxColor)
+                color = Color(boxColor),
             )
 
             val doseAndType = "${medication.dosage} ${
-            stringResource(
-                when (medication.type) {
-                    MedicationType.TABLET -> R.string.tablet
-                    MedicationType.CAPSULE -> R.string.capsule
-                    MedicationType.SYRUP -> R.string.type_syrup
-                    MedicationType.DROPS -> R.string.drops
-                    MedicationType.SPRAY -> R.string.spray
-                    MedicationType.GEL -> R.string.gel
-                }
-            ).lowercase()
+                stringResource(
+                    when (medication.type) {
+                        MedicationType.TABLET -> R.string.tablet
+                        MedicationType.CAPSULE -> R.string.capsule
+                        MedicationType.SYRUP -> R.string.type_syrup
+                        MedicationType.DROPS -> R.string.drops
+                        MedicationType.SPRAY -> R.string.spray
+                        MedicationType.GEL -> R.string.gel
+                    },
+                ).lowercase()
             } at ${medication.medicationTime.toFormattedTimeString()}"
 
             Text(
                 text = doseAndType,
                 style = MaterialTheme.typography.headlineSmall,
-                color = Color(boxColor)
+                color = Color(boxColor),
             )
         }
     }

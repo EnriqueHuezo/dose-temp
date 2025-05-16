@@ -21,85 +21,89 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val getMedicationsUseCase: GetMedicationsUseCase,
-    private val updateMedicationUseCase: UpdateMedicationUseCase,
-    private val savedStateHandle: SavedStateHandle,
-    private val analyticsHelper: AnalyticsHelper
-) : ViewModel() {
+class HomeViewModel
+    @Inject
+    constructor(
+        private val getMedicationsUseCase: GetMedicationsUseCase,
+        private val updateMedicationUseCase: UpdateMedicationUseCase,
+        private val savedStateHandle: SavedStateHandle,
+        private val analyticsHelper: AnalyticsHelper,
+    ) : ViewModel() {
+        private val _selectedDate = MutableStateFlow(Date())
+        private val _dateFilter =
+            savedStateHandle.getStateFlow(
+                DATE_FILTER_KEY,
+                Date().toFormattedYearMonthDateString(),
+            )
+        private val _greeting = MutableStateFlow("")
+        private val _userName = MutableStateFlow("")
 
-    private val _selectedDate = MutableStateFlow(Date())
-    private val _dateFilter = savedStateHandle.getStateFlow(
-        DATE_FILTER_KEY,
-        Date().toFormattedYearMonthDateString()
-    )
-    private val _greeting = MutableStateFlow("")
-    private val _userName = MutableStateFlow("")
+        @OptIn(ExperimentalCoroutinesApi::class)
+        private val _medications =
+            _dateFilter.flatMapLatest { selectedDate ->
+                getMedicationsUseCase.getMedications(selectedDate)
+            }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val _medications = _dateFilter.flatMapLatest { selectedDate ->
-        getMedicationsUseCase.getMedications(selectedDate)
-    }
+        val homeUiState =
+            combine(
+                _selectedDate,
+                _medications,
+                _dateFilter,
+                _greeting,
+                _userName,
+            ) { selectedDate, medications, dateFilter, greeting, userName ->
+                HomeState(
+                    lastSelectedDate = dateFilter,
+                    medications = medications.sortedBy { it.medicationTime },
+                    greeting = greeting,
+                    userName = userName,
+                )
+            }.stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                HomeState(lastSelectedDate = Date().toFormattedYearMonthDateString()),
+            )
 
-    val homeUiState = combine(
-        _selectedDate,
-        _medications,
-        _dateFilter,
-        _greeting,
-        _userName
-    ) { selectedDate, medications, dateFilter, greeting, userName ->
-        HomeState(
-            lastSelectedDate = dateFilter,
-            medications = medications.sortedBy { it.medicationTime },
-            greeting = greeting,
-            userName = userName
-        )
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000),
-        HomeState(lastSelectedDate = Date().toFormattedYearMonthDateString())
-    )
+        fun updateSelectedDate(date: Date) {
+            _selectedDate.value = date
+            // Update the date filter to trigger new medication fetch
+            savedStateHandle[DATE_FILTER_KEY] = date.toFormattedYearMonthDateString()
+        }
 
-    fun updateSelectedDate(date: Date) {
-        _selectedDate.value = date
-        // Update the date filter to trigger new medication fetch
-        savedStateHandle[DATE_FILTER_KEY] = date.toFormattedYearMonthDateString()
-    }
+        init {
+            getUserName()
+            getGreeting()
+        }
 
-    init {
-        getUserName()
-        getGreeting()
-    }
+        private fun getUserName() {
+            _userName.value = "Kathryn"
+            // TODO: Get user name from DB
+        }
 
-    private fun getUserName() {
-        _userName.value = "Kathryn"
-        // TODO: Get user name from DB
-    }
+        private fun getGreeting() {
+            _greeting.value = "Greeting"
+            // TODO: Get greeting by checking system time
+        }
 
-    private fun getGreeting() {
-        _greeting.value = "Greeting"
-        // TODO: Get greeting by checking system time
-    }
+        fun selectDate(selectedDate: CalendarModel.DateModel) {
+            savedStateHandle[DATE_FILTER_KEY] = selectedDate.date.toFormattedYearMonthDateString()
+        }
 
-    fun selectDate(selectedDate: CalendarModel.DateModel) {
-        savedStateHandle[DATE_FILTER_KEY] = selectedDate.date.toFormattedYearMonthDateString()
-    }
+        fun takeMedication(medication: Medication) {
+            viewModelScope.launch {
+                updateMedicationUseCase.updateMedication(medication)
+            }
+        }
 
-    fun takeMedication(medication: Medication) {
-        viewModelScope.launch {
-            updateMedicationUseCase.updateMedication(medication)
+        fun getUserPlan() {
+            // TODO: Get user plan
+        }
+
+        fun logEvent(eventName: String) {
+            analyticsHelper.logEvent(eventName = eventName)
+        }
+
+        companion object {
+            const val DATE_FILTER_KEY = "medication_date_filter"
         }
     }
-
-    fun getUserPlan() {
-        // TODO: Get user plan
-    }
-
-    fun logEvent(eventName: String) {
-        analyticsHelper.logEvent(eventName = eventName)
-    }
-
-    companion object {
-        const val DATE_FILTER_KEY = "medication_date_filter"
-    }
-}

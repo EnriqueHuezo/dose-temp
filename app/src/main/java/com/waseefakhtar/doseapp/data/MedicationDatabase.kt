@@ -13,13 +13,13 @@ import com.waseefakhtar.doseapp.data.entity.MedicationEntity
     entities = [MedicationEntity::class],
     version = 4,
     autoMigrations = [
-        AutoMigration(from = 3, to = 4, spec = MedicationDatabase.AutoMigration::class)
-    ]
+        AutoMigration(from = 3, to = 4, spec = MedicationDatabase.AutoMigration::class),
+    ],
 )
 @TypeConverters(Converters::class)
 abstract class MedicationDatabase : RoomDatabase() {
-
     abstract val dao: MedicationDao
+
     @DeleteColumn(tableName = "MedicationEntity", columnName = "timesOfDay")
     @RenameColumn(tableName = "MedicationEntity", fromColumnName = "date", toColumnName = "medicationTime")
     class AutoMigration : AutoMigrationSpec

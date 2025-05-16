@@ -73,16 +73,16 @@ fun HomeRoute(
     askAlarmPermission: Boolean,
     navigateToMedicationDetail: (Medication) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.homeUiState.collectAsState()
     PermissionAlarmDialog(
         askAlarmPermission = askAlarmPermission,
-        logEvent = viewModel::logEvent
+        logEvent = viewModel::logEvent,
     )
     PermissionDialog(
         askNotificationPermission = askNotificationPermission,
-        logEvent = viewModel::logEvent
+        logEvent = viewModel::logEvent,
     )
     HomeScreen(
         modifier = modifier,
@@ -103,11 +103,11 @@ fun HomeScreen(
     navigateToMedicationDetail: (Medication) -> Unit,
     onDateSelected: (CalendarModel.DateModel) -> Unit,
     onSelectedDate: (Date) -> Unit,
-    logEvent: (String) -> Unit
+    logEvent: (String) -> Unit,
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         DailyMedications(
             navController = navController,
@@ -129,12 +129,12 @@ fun Greeting() {
         // TODO: Get name from DB and show user's first name.
         Text(
             text = "Good morning,",
-            style = MaterialTheme.typography.displaySmall
+            style = MaterialTheme.typography.displaySmall,
         )
         Text(
             text = "Kathryn!",
             fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.displaySmall
+            style = MaterialTheme.typography.displaySmall,
         )
         Spacer(modifier = Modifier.padding(8.dp))
     }
@@ -145,34 +145,35 @@ fun Greeting() {
 fun DailyOverviewCard(
     navController: NavController,
     medicationsToday: List<Medication>,
-    logEvent: (String) -> Unit
+    logEvent: (String) -> Unit,
 ) {
-
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp)
-            .height(156.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+                .height(156.dp),
         shape = RoundedCornerShape(36.dp),
-        colors = cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.tertiary
-        ),
+        colors =
+            cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.tertiary,
+            ),
         onClick = {
             logEvent.invoke(AnalyticsEvents.ADD_MEDICATION_CLICKED_DAILY_OVERVIEW)
             navController.navigate(AddMedicationDestination.route)
-        }
+        },
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                modifier =
+                    Modifier
+                        .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-
                 Text(
                     text = stringResource(R.string.your_plan_for_today),
                     fontWeight = FontWeight.Bold,
@@ -180,21 +181,23 @@ fun DailyOverviewCard(
                 )
 
                 Text(
-                    text = stringResource(
-                        id = R.string.daily_medicine_log,
-                        medicationsToday.filter { it.medicationTaken }.size,
-                        medicationsToday.size
-                    ),
+                    text =
+                        stringResource(
+                            id = R.string.daily_medicine_log,
+                            medicationsToday.filter { it.medicationTaken }.size,
+                            medicationsToday.size,
+                        ),
                     style = MaterialTheme.typography.titleSmall,
                 )
             }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.doctor), contentDescription = ""
+                    painter = painterResource(id = R.drawable.doctor),
+                    contentDescription = "",
                 )
             }
         }
@@ -204,36 +207,37 @@ fun DailyOverviewCard(
 @Composable
 fun EmptyCard(
     navController: NavController,
-    logEvent: (String) -> Unit
+    logEvent: (String) -> Unit,
 ) {
-
     LaunchedEffect(Unit) {
         logEvent.invoke(AnalyticsEvents.EMPTY_CARD_SHOWN)
     }
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(156.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(156.dp),
         shape = RoundedCornerShape(36.dp),
-        colors = cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.tertiary
-        ),
+        colors =
+            cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.tertiary,
+            ),
         onClick = {
             logEvent.invoke(AnalyticsEvents.ADD_MEDICATION_CLICKED_EMPTY_CARD)
             navController.navigate(AddMedicationDestination.route)
-        }
+        },
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
             Column(
-                modifier = Modifier
-                    .padding(24.dp, 24.dp, 0.dp, 16.dp)
-                    .fillMaxWidth(.50F)
-                    .align(Alignment.CenterVertically),
+                modifier =
+                    Modifier
+                        .padding(24.dp, 24.dp, 0.dp, 16.dp)
+                        .fillMaxWidth(.50F)
+                        .align(Alignment.CenterVertically),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-
                 Text(
                     text = stringResource(R.string.medication_break),
                     fontWeight = FontWeight.Bold,
@@ -249,10 +253,11 @@ fun EmptyCard(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.Bottom
+                verticalAlignment = Alignment.Bottom,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.doctor), contentDescription = ""
+                    painter = painterResource(id = R.drawable.doctor),
+                    contentDescription = "",
                 )
             }
         }
@@ -266,9 +271,8 @@ fun DailyMedications(
     navigateToMedicationDetail: (Medication) -> Unit,
     onSelectedDate: (Date) -> Unit,
     onDateSelected: (CalendarModel.DateModel) -> Unit,
-    logEvent: (String) -> Unit
+    logEvent: (String) -> Unit,
 ) {
-
     DatesHeader(
         lastSelectedDate = state.lastSelectedDate,
         logEvent = {
@@ -277,7 +281,7 @@ fun DailyMedications(
         onDateSelected = { selectedDate ->
             onSelectedDate(selectedDate.date)
             logEvent.invoke(AnalyticsEvents.HOME_NEW_DATE_SELECTED)
-        }
+        },
     )
 
     if (state.medications.isEmpty()) {
@@ -285,7 +289,7 @@ fun DailyMedications(
             navController = navController,
             logEvent = {
                 logEvent.invoke(it)
-            }
+            },
         )
     } else {
         LazyColumn(
@@ -298,9 +302,9 @@ fun DailyMedications(
                         medication = it,
                         navigateToMedicationDetail = { medication ->
                             navigateToMedicationDetail(medication)
-                        }
+                        },
                     )
-                }
+                },
             )
         }
     }
@@ -310,18 +314,19 @@ fun DailyMedications(
 fun DatesHeader(
     lastSelectedDate: String,
     onDateSelected: (CalendarModel.DateModel) -> Unit, // Callback to pass the selected date){}
-    logEvent: (String) -> Unit
+    logEvent: (String) -> Unit,
 ) {
     val dataSource = CalendarDataSource()
     var calendarModel by remember {
         mutableStateOf(
-            dataSource.getData(lastSelectedDate = dataSource.getLastSelectedDate(lastSelectedDate))
+            dataSource.getData(lastSelectedDate = dataSource.getLastSelectedDate(lastSelectedDate)),
         )
     }
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
     ) {
         DateHeader(
             data = calendarModel,
@@ -348,21 +353,23 @@ fun DatesHeader(
 
                 calendarModel = dataSource.getData(startDate = finalStartDate, lastSelectedDate = calendarModel.selectedDate.date)
                 logEvent.invoke(AnalyticsEvents.HOME_CALENDAR_NEXT_WEEK_CLICKED)
-            }
+            },
         )
         DateList(
             data = calendarModel,
             onDateClickListener = { date ->
-                calendarModel = calendarModel.copy(
-                    selectedDate = date,
-                    visibleDates = calendarModel.visibleDates.map {
-                        it.copy(
-                            isSelected = it.date.toFormattedDateString() == date.date.toFormattedDateString()
-                        )
-                    }
-                )
+                calendarModel =
+                    calendarModel.copy(
+                        selectedDate = date,
+                        visibleDates =
+                            calendarModel.visibleDates.map {
+                                it.copy(
+                                    isSelected = it.date.toFormattedDateString() == date.date.toFormattedDateString(),
+                                )
+                            },
+                    )
                 onDateSelected(date)
-            }
+            },
         )
     }
 }
@@ -370,11 +377,11 @@ fun DatesHeader(
 @Composable
 fun DateList(
     data: CalendarModel,
-    onDateClickListener: (CalendarModel.DateModel) -> Unit
+    onDateClickListener: (CalendarModel.DateModel) -> Unit,
 ) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         items(items = data.visibleDates) { date ->
             DateItem(date, onDateClickListener)
@@ -394,39 +401,45 @@ fun DateItem(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.colorScheme.outline
+            color = MaterialTheme.colorScheme.outline,
         )
         Card(
-            modifier = Modifier
-                .padding(vertical = 4.dp, horizontal = 4.dp),
+            modifier =
+                Modifier
+                    .padding(vertical = 4.dp, horizontal = 4.dp),
             onClick = { onClickListener(date) },
-            colors = cardColors(
-                // background colors of the selected date
-                // and the non-selected date are different
-                containerColor = if (date.isSelected) {
-                    MaterialTheme.colorScheme.tertiary
-                } else {
-                    MaterialTheme.colorScheme.surface
-                }
-            ),
+            colors =
+                cardColors(
+                    // background colors of the selected date
+                    // and the non-selected date are different
+                    containerColor =
+                        if (date.isSelected) {
+                            MaterialTheme.colorScheme.tertiary
+                        } else {
+                            MaterialTheme.colorScheme.surface
+                        },
+                ),
         ) {
             Column(
-                modifier = Modifier
-                    .width(42.dp)
-                    .height(42.dp)
-                    .padding(8.dp)
-                    .fillMaxSize(), // Fill the available size in the Column
+                modifier =
+                    Modifier
+                        .width(42.dp)
+                        .height(42.dp)
+                        .padding(8.dp)
+                        .fillMaxSize(),
+                // Fill the available size in the Column
                 verticalArrangement = Arrangement.Center, // Center vertically
-                horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
+                horizontalAlignment = Alignment.CenterHorizontally, // Center horizontally
             ) {
                 Text(
                     text = date.date.toFormattedDateShortString(),
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = if (date.isSelected) {
-                        FontWeight.Medium
-                    } else {
-                        FontWeight.Normal
-                    }
+                    fontWeight =
+                        if (date.isSelected) {
+                            FontWeight.Medium
+                        } else {
+                            FontWeight.Normal
+                        },
                 )
             }
         }
@@ -437,23 +450,25 @@ fun DateItem(
 fun DateHeader(
     data: CalendarModel,
     onPrevClickListener: (Date) -> Unit,
-    onNextClickListener: (Date) -> Unit
+    onNextClickListener: (Date) -> Unit,
 ) {
     Row(
         modifier = Modifier.padding(vertical = 16.dp),
     ) {
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically),
-            text = if (data.selectedDate.isToday) {
-                stringResource(R.string.today)
-            } else {
-                data.selectedDate.date.toFormattedMonthDateString()
-            },
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically),
+            text =
+                if (data.selectedDate.isToday) {
+                    stringResource(R.string.today)
+                } else {
+                    data.selectedDate.date.toFormattedMonthDateString()
+                },
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.tertiary
+            color = MaterialTheme.colorScheme.tertiary,
         )
         IconButton(onClick = {
             onPrevClickListener(data.startDate.date)
@@ -461,7 +476,7 @@ fun DateHeader(
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowLeft,
                 tint = MaterialTheme.colorScheme.tertiary,
-                contentDescription = "Back"
+                contentDescription = "Back",
             )
         }
         IconButton(onClick = {
@@ -470,7 +485,7 @@ fun DateHeader(
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 tint = MaterialTheme.colorScheme.tertiary,
-                contentDescription = "Next"
+                contentDescription = "Next",
             )
         }
     }
@@ -478,7 +493,9 @@ fun DateHeader(
 
 sealed class MedicationListItem {
     data class OverviewItem(val medicationsToday: List<Medication>, val isMedicationListEmpty: Boolean) : MedicationListItem()
+
     data class MedicationItem(val medication: Medication) : MedicationListItem()
+
     data class HeaderItem(val headerText: String) : MedicationListItem()
 }
 
@@ -486,15 +503,16 @@ sealed class MedicationListItem {
 @Composable
 fun PermissionDialog(
     askNotificationPermission: Boolean,
-    logEvent: (String) -> Unit
+    logEvent: (String) -> Unit,
 ) {
     if (askNotificationPermission && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)) {
-        val notificationPermissionState = rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS) { isGranted ->
-            when (isGranted) {
-                true -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_GRANTED)
-                false -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_REFUSED)
+        val notificationPermissionState =
+            rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS) { isGranted ->
+                when (isGranted) {
+                    true -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_GRANTED)
+                    false -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_REFUSED)
+                }
             }
-        }
         if (!notificationPermissionState.status.isGranted) {
             val openAlertDialog = remember { mutableStateOf(true) }
 
@@ -505,7 +523,7 @@ fun PermissionDialog(
                         icon = {
                             Icon(
                                 imageVector = Icons.Default.Notifications,
-                                contentDescription = stringResource(R.string.notifications)
+                                contentDescription = stringResource(R.string.notifications),
                             )
                         },
                         title = {
@@ -524,11 +542,11 @@ fun PermissionDialog(
                                     notificationPermissionState.launchPermissionRequest()
                                     openAlertDialog.value = false
                                     logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_DIALOG_ALLOW_CLICKED)
-                                }
+                                },
                             ) {
                                 Text(stringResource(R.string.allow))
                             }
-                        }
+                        },
                     )
                 }
             }
@@ -540,30 +558,30 @@ fun PermissionDialog(
 @Composable
 fun PermissionAlarmDialog(
     askAlarmPermission: Boolean,
-    logEvent: (String) -> Unit
+    logEvent: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val alarmManager = ContextCompat.getSystemService(context, AlarmManager::class.java)
     if (askAlarmPermission && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)) {
-        val alarmPermissionState = rememberPermissionState(Manifest.permission.SCHEDULE_EXACT_ALARM) { isGranted ->
-            when (isGranted) {
-                true -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_GRANTED)
-                false -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_REFUSED)
+        val alarmPermissionState =
+            rememberPermissionState(Manifest.permission.SCHEDULE_EXACT_ALARM) { isGranted ->
+                when (isGranted) {
+                    true -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_GRANTED)
+                    false -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_REFUSED)
+                }
             }
-        }
         if (alarmManager?.canScheduleExactAlarms() == false) {
             val openAlertDialog = remember { mutableStateOf(true) }
 
             when {
                 openAlertDialog.value -> {
-
                     logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_DIALOG_SHOWN)
 
                     AlertDialog(
                         icon = {
                             Icon(
                                 imageVector = Icons.Default.Notifications,
-                                contentDescription = stringResource(R.string.alarms)
+                                contentDescription = stringResource(R.string.alarms),
                             )
                         },
                         title = {
@@ -586,11 +604,11 @@ fun PermissionAlarmDialog(
 
                                     openAlertDialog.value = false
                                     logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_DIALOG_ALLOW_CLICKED)
-                                }
+                                },
                             ) {
                                 Text(stringResource(R.string.allow))
                             }
-                        }
+                        },
                     )
                 }
             }

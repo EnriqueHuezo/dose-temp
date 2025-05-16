@@ -32,12 +32,12 @@ import com.waseefakhtar.doseapp.feature.home.MedicationListItem
 @Composable
 fun HistoryRoute(
     navigateToMedicationDetail: (Medication) -> Unit,
-    viewModel: HistoryViewModel = hiltViewModel()
+    viewModel: HistoryViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state
     HistoryScreen(
         state = state,
-        navigateToMedicationDetail = navigateToMedicationDetail
+        navigateToMedicationDetail = navigateToMedicationDetail,
     )
 }
 
@@ -45,31 +45,32 @@ fun HistoryRoute(
 @Composable
 fun HistoryScreen(
     state: HistoryState,
-    navigateToMedicationDetail: (Medication) -> Unit
+    navigateToMedicationDetail: (Medication) -> Unit,
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier
-                    .padding(top = 16.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 16.dp),
                 title = {
                     Text(
                         text = stringResource(id = R.string.history),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.displaySmall,
                     )
-                }
+                },
             )
         },
         bottomBar = { },
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             MedicationList(
                 state = state,
-                navigateToMedicationDetail = navigateToMedicationDetail
+                navigateToMedicationDetail = navigateToMedicationDetail,
             )
         }
     }
@@ -78,11 +79,13 @@ fun HistoryScreen(
 @Composable
 fun MedicationList(
     state: HistoryState,
-    navigateToMedicationDetail: (Medication) -> Unit
+    navigateToMedicationDetail: (Medication) -> Unit,
 ) {
-
     val filteredMedicationList = state.medications.filter { it.medicationTime.hasPassed() }
-    val sortedMedicationList: List<MedicationListItem> = filteredMedicationList.sortedBy { it.medicationTime }.map { MedicationListItem.MedicationItem(it) }
+    val sortedMedicationList: List<MedicationListItem> =
+        filteredMedicationList.sortedBy {
+            it.medicationTime
+        }.map { MedicationListItem.MedicationItem(it) }
 
     when (sortedMedicationList.isEmpty()) {
         true -> EmptyView()
@@ -91,10 +94,13 @@ fun MedicationList(
 }
 
 @Composable
-fun MedicationLazyColumn(sortedMedicationList: List<MedicationListItem>, navigateToMedicationDetail: (Medication) -> Unit) {
+fun MedicationLazyColumn(
+    sortedMedicationList: List<MedicationListItem>,
+    navigateToMedicationDetail: (Medication) -> Unit,
+) {
     LazyColumn(
         modifier = Modifier,
-        contentPadding = PaddingValues(vertical = 8.dp)
+        contentPadding = PaddingValues(vertical = 8.dp),
     ) {
         items(
             items = sortedMedicationList,
@@ -103,9 +109,10 @@ fun MedicationLazyColumn(sortedMedicationList: List<MedicationListItem>, navigat
                     is MedicationListItem.OverviewItem -> { }
                     is MedicationListItem.HeaderItem -> {
                         Text(
-                            modifier = Modifier
-                                .padding(4.dp, 12.dp, 8.dp, 0.dp)
-                                .fillMaxWidth(),
+                            modifier =
+                                Modifier
+                                    .padding(4.dp, 12.dp, 8.dp, 0.dp)
+                                    .fillMaxWidth(),
                             text = it.headerText.uppercase(),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleMedium,
@@ -116,11 +123,11 @@ fun MedicationLazyColumn(sortedMedicationList: List<MedicationListItem>, navigat
                             medication = it.medication,
                             navigateToMedicationDetail = { medication ->
                                 navigateToMedicationDetail(medication)
-                            }
+                            },
                         )
                     }
                 }
-            }
+            },
         )
     }
 }
@@ -128,17 +135,18 @@ fun MedicationLazyColumn(sortedMedicationList: List<MedicationListItem>, navigat
 @Composable
 fun EmptyView() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.no_history_yet),
-            color = MaterialTheme.colorScheme.tertiary
+            color = MaterialTheme.colorScheme.tertiary,
         )
     }
 }

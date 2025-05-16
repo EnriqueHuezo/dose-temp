@@ -26,19 +26,19 @@ object LocalStorageModule {
     @Singleton
     @Provides
     fun provideDataStore(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> =
         PreferenceDataStoreFactory.create(
-            corruptionHandler = ReplaceFileCorruptionHandler(
-                produceNewData = { emptyPreferences() }
-            ),
+            corruptionHandler =
+                ReplaceFileCorruptionHandler(
+                    produceNewData = { emptyPreferences() },
+                ),
             migrations = listOf(SharedPreferencesMigration(context, PREF_NAME)),
             scope = CoroutineScope(Dispatchers.IO),
-            produceFile = { context.preferencesDataStoreFile(PREF_NAME) }
+            produceFile = { context.preferencesDataStoreFile(PREF_NAME) },
         )
 
     @Singleton
     @Provides
-    fun provideDataStoreHandler(dataStore: DataStore<Preferences>): DataStoreHandler =
-        DataStoreHandler(dataStore)
+    fun provideDataStoreHandler(dataStore: DataStore<Preferences>): DataStoreHandler = DataStoreHandler(dataStore)
 }

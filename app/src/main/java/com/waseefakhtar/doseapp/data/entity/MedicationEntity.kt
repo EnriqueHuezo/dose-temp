@@ -18,5 +18,5 @@ data class MedicationEntity(
     val medicationTaken: Boolean,
     val medicationTime: Date,
     @ColumnInfo(defaultValue = "TABLET")
-    val type: String = MedicationType.getDefault().name
+    val type: String = MedicationType.getDefault().name,
 )

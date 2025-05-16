@@ -9,8 +9,7 @@ data class Duration(
     val remainderType: DurationType? = null,
 )
 
-fun Long.calculateDurationInDays(endMillis: Long): Int =
-    ((endMillis - this) / (24 * 60 * 60 * 1000)).toInt() + 1
+fun Long.calculateDurationInDays(endMillis: Long): Int = ((endMillis - this) / (24 * 60 * 60 * 1000)).toInt() + 1
 
 fun Long.formatDuration(endMillis: Long): Duration {
     val totalDays = calculateDurationInDays(endMillis)
@@ -34,10 +33,11 @@ fun Long.formatDuration(endMillis: Long): Duration {
                         remainder = remainingDays,
                         remainderType = DurationType.DAYS,
                     )
-                else -> Duration(
-                    primary = years,
-                    primaryType = DurationType.YEARS,
-                )
+                else ->
+                    Duration(
+                        primary = years,
+                        primaryType = DurationType.YEARS,
+                    )
             }
         }
         totalDays >= 30 -> {
@@ -74,10 +74,11 @@ fun Long.formatDuration(endMillis: Long): Duration {
                 )
             }
         }
-        else -> Duration(
-            primary = totalDays,
-            primaryType = DurationType.DAYS,
-        )
+        else ->
+            Duration(
+                primary = totalDays,
+                primaryType = DurationType.DAYS,
+            )
     }
 }
 

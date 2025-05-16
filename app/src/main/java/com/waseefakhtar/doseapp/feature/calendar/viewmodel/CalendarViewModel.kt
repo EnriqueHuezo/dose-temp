@@ -8,10 +8,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CalendarViewModel @Inject constructor() : ViewModel() {
+class CalendarViewModel
+    @Inject
+    constructor() : ViewModel() {
+        var state by mutableStateOf(CalendarState())
+            private set
 
-    var state by mutableStateOf(CalendarState())
-        private set
-
-    // TODO: Fill out when Calendar feature is implemented
-}
+        // TODO: Fill out when Calendar feature is implemented
+    }

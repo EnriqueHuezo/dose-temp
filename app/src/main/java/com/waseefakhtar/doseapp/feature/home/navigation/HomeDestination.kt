@@ -11,12 +11,18 @@ import com.waseefakhtar.doseapp.feature.home.HomeRoute
 
 const val ASK_NOTIFICATION_PERMISSION = "notification_permission"
 const val ASK_ALARM_PERMISSION = "alarm_permission"
+
 object HomeDestination : DoseNavigationDestination {
     override val route = "home_route"
     override val destination = "home_destination"
 }
 
-fun NavGraphBuilder.homeGraph(navController: NavController, bottomBarVisibility: MutableState<Boolean>, fabVisibility: MutableState<Boolean>, navigateToMedicationDetail: (Medication) -> Unit) {
+fun NavGraphBuilder.homeGraph(
+    navController: NavController,
+    bottomBarVisibility: MutableState<Boolean>,
+    fabVisibility: MutableState<Boolean>,
+    navigateToMedicationDetail: (Medication) -> Unit,
+) {
     composable(route = HomeDestination.route) {
         LaunchedEffect(null) {
             bottomBarVisibility.value = true

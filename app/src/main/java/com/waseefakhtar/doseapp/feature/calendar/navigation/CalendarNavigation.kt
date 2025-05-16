@@ -12,7 +12,10 @@ object CalendarDestination : DoseNavigationDestination {
     override val destination = "calendar_destination"
 }
 
-fun NavGraphBuilder.calendarGraph(bottomBarVisibility: MutableState<Boolean>, fabVisibility: MutableState<Boolean>) {
+fun NavGraphBuilder.calendarGraph(
+    bottomBarVisibility: MutableState<Boolean>,
+    fabVisibility: MutableState<Boolean>,
+) {
     composable(route = CalendarDestination.route) {
         LaunchedEffect(null) {
             bottomBarVisibility.value = true

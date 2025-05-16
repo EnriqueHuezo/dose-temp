@@ -21,7 +21,7 @@ fun EndDatePickerDialog(
     state: DatePickerState,
     shouldDisplay: Boolean,
     onConfirmClicked: (selectedDateInMillis: Long) -> Unit,
-    dismissRequest: () -> Unit
+    dismissRequest: () -> Unit,
 ) {
     if (shouldDisplay) {
         DatePickerDialog(
@@ -34,7 +34,7 @@ fun EndDatePickerDialog(
                             onConfirmClicked(it)
                         }
                         dismissRequest()
-                    }
+                    },
                 ) {
                     Text(text = stringResource(R.string.ok))
                 }
@@ -52,12 +52,12 @@ fun EndDatePickerDialog(
                         state.selectedDateMillis?.toFormattedDateString()?.let {
                             Text(
                                 modifier = Modifier.padding(start = 16.dp),
-                                text = it
+                                text = it,
                             )
                         }
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 }

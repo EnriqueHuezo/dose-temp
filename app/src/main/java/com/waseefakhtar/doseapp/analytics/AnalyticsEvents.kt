@@ -1,7 +1,6 @@
 package com.waseefakhtar.doseapp.analytics
 
 object AnalyticsEvents {
-
     const val NOTIFICATION_PERMISSION_DIALOG_SHOWN = "notification_permission_dialog_shown"
     const val NOTIFICATION_PERMISSION_DIALOG_DISMISSED = "notification_permission_dialog_shown"
     const val NOTIFICATION_PERMISSION_DIALOG_ALLOW_CLICKED = "notification_permission_dialog_allow_clicked"
