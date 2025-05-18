@@ -216,8 +216,7 @@ fun EmptyCard(
     Card(
         modifier =
             Modifier
-                .fillMaxWidth()
-                .height(156.dp),
+                .fillMaxWidth(),
         shape = RoundedCornerShape(36.dp),
         colors =
             cardColors(
@@ -229,7 +228,7 @@ fun EmptyCard(
             navController.navigate(AddMedicationDestination.route)
         },
     ) {
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             Column(
                 modifier =
                     Modifier
@@ -339,7 +338,10 @@ fun DatesHeader(
                 calendar.add(Calendar.DAY_OF_YEAR, -2) // Subtract one day from startDate
                 val finalStartDate = calendar.time
 
-                calendarModel = dataSource.getData(startDate = finalStartDate, lastSelectedDate = calendarModel.selectedDate.date)
+                calendarModel = dataSource.getData(
+                    startDate = finalStartDate,
+                    lastSelectedDate = calendarModel.selectedDate.date
+                )
                 logEvent.invoke(AnalyticsEvents.HOME_CALENDAR_PREVIOUS_WEEK_CLICKED)
             },
             onNextClickListener = { endDate ->
@@ -351,7 +353,10 @@ fun DatesHeader(
                 calendar.add(Calendar.DAY_OF_YEAR, 2)
                 val finalStartDate = calendar.time
 
-                calendarModel = dataSource.getData(startDate = finalStartDate, lastSelectedDate = calendarModel.selectedDate.date)
+                calendarModel = dataSource.getData(
+                    startDate = finalStartDate,
+                    lastSelectedDate = calendarModel.selectedDate.date
+                )
                 logEvent.invoke(AnalyticsEvents.HOME_CALENDAR_NEXT_WEEK_CLICKED)
             },
         )
@@ -492,7 +497,10 @@ fun DateHeader(
 }
 
 sealed class MedicationListItem {
-    data class OverviewItem(val medicationsToday: List<Medication>, val isMedicationListEmpty: Boolean) : MedicationListItem()
+    data class OverviewItem(
+        val medicationsToday: List<Medication>,
+        val isMedicationListEmpty: Boolean
+    ) : MedicationListItem()
 
     data class MedicationItem(val medication: Medication) : MedicationListItem()
 
